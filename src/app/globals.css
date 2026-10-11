@@ -1,26 +1,58 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Legacy JS config (Tailwind v4 CSS-first is used, this wires in the tokens
+   from tailwind.config.ts — colors, fonts, container, animations). */
+@config '../../tailwind.config.ts';
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  * {
+    @apply border-stone-200 dark:border-stone-800;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    @apply h-full scroll-smooth antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply flex min-h-dvh flex-col bg-stone-50 font-sans text-stone-900 dark:bg-stone-950 dark:text-stone-100;
+  }
+
+  ::selection {
+    @apply bg-accent-600/20 text-inherit;
+  }
+
+  /* Accessible default focus ring for keyboard users. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent-600 ring-offset-2 ring-offset-white dark:ring-offset-stone-950;
+  }
+
+  /* Slim, unobtrusive scrollbars. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-stone-300 dark:bg-stone-700;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
 }
